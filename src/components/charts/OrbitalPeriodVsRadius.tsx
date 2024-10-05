@@ -9,13 +9,24 @@ import {
 } from "chart.js";
 import ExoPlanetType from "../../types/ExoPlanetType";
 
-// Register required elements with Chart.js
 ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
 
 const OrbitalPeriodVsRadius = ({ data }: { data: ExoPlanetType[] }) => {
   // Filter and format data for short orbital periods (<= 50 days)
-  const formattedData = data
+  const shortOrbitalPeriodData = data
     .filter((planet) => planet.pl_orbper && planet.pl_orbper <= 50)
+    .map((planet) => ({
+      x: planet.pl_orbper,
+      y: planet.pl_rade,
+      planetName: planet.pl_name,
+    }));
+
+  // Filter and format data for medium orbital periods (50 < days <= 100)
+  const mediumOrbitalPeriodData = data
+    .filter(
+      (planet) =>
+        planet.pl_orbper && planet.pl_orbper > 50 && planet.pl_orbper <= 100
+    )
     .map((planet) => ({
       x: planet.pl_orbper,
       y: planet.pl_rade,
@@ -26,8 +37,13 @@ const OrbitalPeriodVsRadius = ({ data }: { data: ExoPlanetType[] }) => {
     datasets: [
       {
         label: "Orbital Period vs Radius (<= 50 days)",
-        data: formattedData,
+        data: shortOrbitalPeriodData,
         backgroundColor: "#82ca9d",
+      },
+      {
+        label: "Orbital Period vs Radius (50 < days <= 100)",
+        data: mediumOrbitalPeriodData,
+        backgroundColor: "#8884d8",
       },
     ],
   };
