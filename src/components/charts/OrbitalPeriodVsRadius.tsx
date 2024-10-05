@@ -33,6 +33,15 @@ const OrbitalPeriodVsRadius = ({ data }: { data: ExoPlanetType[] }) => {
       planetName: planet.pl_name,
     }));
 
+  // Filter and format data for large planet radius (> 2 Earth Radii)
+  const largePlanetRadiusData = data
+    .filter((planet) => planet.pl_rade && planet.pl_rade > 2)
+    .map((planet) => ({
+      x: planet.pl_orbper,
+      y: planet.pl_rade,
+      planetName: planet.pl_name,
+    }));
+
   const chartData = {
     datasets: [
       {
@@ -44,6 +53,11 @@ const OrbitalPeriodVsRadius = ({ data }: { data: ExoPlanetType[] }) => {
         label: "Orbital Period vs Radius (50 < days <= 100)",
         data: mediumOrbitalPeriodData,
         backgroundColor: "#8884d8",
+      },
+      {
+        label: "Large Planet Radius (> 2 ER)",
+        data: largePlanetRadiusData,
+        backgroundColor: "#ffc658",
       },
     ],
   };
