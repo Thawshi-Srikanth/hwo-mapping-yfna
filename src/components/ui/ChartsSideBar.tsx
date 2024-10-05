@@ -11,9 +11,15 @@ type Props = {
   isOpen: boolean;
   toggleSideNav: () => void;
   data: ExoPlanetType[] | undefined;
+ 
 };
 
-export default function ChartSideNav({ isOpen, toggleSideNav, data }: Props) {
+export default function ChartSideNav({
+  isOpen,
+  toggleSideNav,
+  data,
+
+}: Props) {
   if (!data) {
     return null;
   }
