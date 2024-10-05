@@ -3,15 +3,24 @@ import { IoBarChartSharp } from "react-icons/io5";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import MusicButton from "./MusicButton";
 
-type Props = { onInfoClick: () => void; onChartsClick: () => void };
+type Props = {
+  onToolsClick: () => void;
+  onInfoClick: () => void;
+  onChartsClick: () => void;
+};
 
-export default function Header({ onInfoClick, onChartsClick }: Props) {
+export default function Header({
+  onToolsClick,
+  onInfoClick,
+  onChartsClick,
+}: Props) {
   return (
     <div className="absolute top-0 right-0 flex flex-row justify-between w-screen h-[10%] p-2 text-white z-20">
       <div className="flex flex-row gap-2">
         <RiToolsFill
           color="white"
           size={30}
+          onClick={onToolsClick}
           className="hover:cursor-pointer hover:bg-slate-700"
         />
         <IoIosInformationCircleOutline
