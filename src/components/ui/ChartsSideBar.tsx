@@ -2,6 +2,7 @@
 
 import ExoPlanetType from "../../types/ExoPlanetType";
 import DistanceVsRadius from "../charts/DistanceVsRadius";
+import OrbitalPeriodVsRadius from "../charts/OrbitalPeriodVsRadius";
 
 type Props = {
   isOpen: boolean;
@@ -10,6 +11,9 @@ type Props = {
 };
 
 export default function ChartSideNav({ isOpen, toggleSideNav, data }: Props) {
+  if (!data) {
+    return null;
+  }
   return (
     <div
       className={`absolute top-0 right-0 h-screen xs:w-full md:w-[50%] lg:w-[60%] bg-black z-20 p-2
@@ -30,7 +34,13 @@ export default function ChartSideNav({ isOpen, toggleSideNav, data }: Props) {
           <h2 className="text-xl font-semibold mb-2  text-white">
             Distance vs Radius
           </h2>
-          {data && <DistanceVsRadius data={data} />}
+          <DistanceVsRadius data={data} />
+        </div>
+        <div className="w-full bg-transparent shadow-md rounded-sm p-4">
+          <h2 className="text-xl font-semibold mb-2  text-white">
+            Orbital Period vs Radius
+          </h2>
+          <OrbitalPeriodVsRadius data={data} />
         </div>
       </div>
     </div>
