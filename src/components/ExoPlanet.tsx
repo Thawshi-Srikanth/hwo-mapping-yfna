@@ -1,4 +1,4 @@
-import { memo, useRef, useState } from "react";
+import { memo, useContext, useRef, useState } from "react";
 import ExoPlanetType from "../types/ExoPlanetType";
 import * as THREE from "three";
 import { Sphere } from "@react-three/drei";
@@ -6,6 +6,10 @@ import { convertToGalaxyCoordinates } from "../lib/convet-to-galaxy-cartesian-co
 import { EARTH_POSITION, GLOBAL_PLANET_RADIUS } from "../config/planetConfig";
 import { useFrame, useThree } from "@react-three/fiber";
 import { CAMERA_PLANET_SCALING_FACTOR } from "../config/cameraConfig";
+import ExoPlanetTag from "./ExoPlanetTag";
+import { isExoplanetWithinHabitableZone } from "../lib/habitability-calculation";
+import PingAnimation from "./PingAnimation";
+import ToolContext from "../context/tools/ToolContext";
 
 type Props = {
   planet: ExoPlanetType;
@@ -13,9 +17,11 @@ type Props = {
   snrValue: number;
 };
 
-const ExoPlanet = memo(({ planet, color = "red" }: Props) => {
+const ExoPlanet = memo(({ planet, color = "red", snrValue }: Props) => {
   const [isPlanetTagVisible, setIsPlanetTagVisible] = useState<boolean>(false);
   const { camera } = useThree(); // Access the camera from the context
+  let isHabitable = false;
+  const toolContext = useContext(ToolContext);
 
   const relativePosition = convertToGalaxyCoordinates(
     planet.ra,
@@ -56,6 +62,22 @@ const ExoPlanet = memo(({ planet, color = "red" }: Props) => {
     document.body.style.cursor = "default";
   };
 
+  const isValidNumber = (value: any) =>
+    value != null && value !== "" && !isNaN(value);
+
+  if (
+    isValidNumber(planet.pl_orbsmax) &&
+    isValidNumber(planet.st_teff) &&
+    isValidNumber(planet.pl_rade)
+  ) {
+    isHabitable = isExoplanetWithinHabitableZone(
+      planet.pl_name,
+      planet.st_rad,
+      planet.st_teff,
+      planet.pl_orbsmax
+    );
+  }
+
   return (
     <mesh
       ref={ref}
@@ -64,6 +86,9 @@ const ExoPlanet = memo(({ planet, color = "red" }: Props) => {
       onPointerOver={handlePointerOver}
       onPointerOut={handlePointerOut}
     >
+      {isPlanetTagVisible && (
+        <ExoPlanetTag planet={planet} snr={snrValue} onClick={planetOnClick} />
+      )}
       <Sphere args={[GLOBAL_PLANET_RADIUS, 10, 10]}>
         <meshStandardMaterial
           emissive={color}
@@ -72,6 +97,7 @@ const ExoPlanet = memo(({ planet, color = "red" }: Props) => {
           color={color}
         />
       </Sphere>
+      {isHabitable && toolContext?.isHZActivated && <PingAnimation />}
     </mesh>
   );
 });

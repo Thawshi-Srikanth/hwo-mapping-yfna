@@ -47,6 +47,8 @@ const DistanceVsRadius: React.FC<ChartPlanetTypes> = React.memo(({ data }) => {
   };
 
   const options = {
+    responsive: true,
+    maintainAspectRatio: false,
     scales: {
       x: {
         title: {
