@@ -3,9 +3,9 @@ import { IoBarChartSharp } from "react-icons/io5";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import MusicButton from "./MusicButton";
 
-type Props = {};
+type Props = { onChartsClick: () => void };
 
-export default function Header({}: Props) {
+export default function Header({ onChartsClick }: Props) {
   return (
     <div className="absolute top-0 right-0 flex flex-row justify-between w-screen h-[10%] p-2 text-white z-20">
       <div className="flex flex-row gap-2">
@@ -30,6 +30,7 @@ export default function Header({}: Props) {
         <IoBarChartSharp
           color="white"
           size={25}
+          onClick={onChartsClick}
           className="hover:cursor-pointer hover:bg-slate-700"
         />
       </div>
