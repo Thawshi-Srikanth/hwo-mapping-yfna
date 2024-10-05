@@ -51,7 +51,7 @@ export default function ChartSideNav({ isOpen, toggleSideNav, data }: Props) {
         </div>
         <div className="w-full bg-transparent shadow-md rounded-sm p-4">
           <h2 className="text-xl font-semibold mb-2  text-white">
-            Orbital Period vs Radius
+            Planetary Radius Distribution
           </h2>
           <div className="h-[300px] min-h-[300px]">
             <PlanetRadiusDistribution data={data} />
@@ -59,7 +59,7 @@ export default function ChartSideNav({ isOpen, toggleSideNav, data }: Props) {
         </div>
         <div className="w-full bg-transparent shadow-md rounded-sm p-4">
           <h2 className="text-xl font-semibold mb-2  text-white">
-            Orbital Period vs Radius
+            Distance Year Distribution
           </h2>
           <div className="h-[300px] min-h-[300px]">
             <DiscoveryYearBar data={data} />
@@ -68,7 +68,7 @@ export default function ChartSideNav({ isOpen, toggleSideNav, data }: Props) {
 
         <div className="w-full bg-transparent shadow-md rounded-sm p-4">
           <h2 className="text-xl font-semibold mb-2  text-white">
-            Orbital Period vs Radius
+            Stellar temperature vs Semi Major Axis
           </h2>
           <div className="h-[300px] min-h-[300px]">
             <StellarTempVsSemiMajorAxis data={data} />
