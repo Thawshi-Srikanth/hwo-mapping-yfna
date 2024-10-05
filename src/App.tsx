@@ -75,7 +75,7 @@ function App() {
             rotateSpeed={0.02}
           />
           <SceneBackground texturePath="/images/background/stars_8k.webp" />
-          <Scene />
+          <Scene exoPlanets={planetContext?.planets} />
         </Canvas>
       )}
     </div>
