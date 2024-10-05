@@ -5,8 +5,6 @@ import ChartSideNav from "./components/ui/ChartsSideBar";
 import InfoSideNav from "./components/ui/InfoSideBar";
 import ToolsSideNav from "./components/ui/ToolsSideBar";
 
-// adding sample data
-
 function App() {
   const [isToolSideBarOpen, setIsToolSideBarOpen] = useState(false);
   const [isInfoSideBarOpen, setIsInfoSideBarOpen] = useState(false);
