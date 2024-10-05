@@ -47,7 +47,12 @@ function App() {
         isOpen={isInfoSideBarOpen}
         toggleSideNav={toggleInfoBarSideBar}
       />
-      <ChartSideNav isOpen={isChartNavOpen} toggleSideNav={toggleChartNav} />
+      <ChartSideNav
+        isOpen={isChartNavOpen}
+        toggleSideNav={toggleChartNav}
+        data={planetContext?.planets}
+      />
+
       {planetContext?.isLoading ? (
         <div className="flex h-full w-full items-center justify-center text-white">
           <p>Loading...</p>
