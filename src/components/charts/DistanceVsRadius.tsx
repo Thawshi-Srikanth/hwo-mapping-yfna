@@ -12,6 +12,19 @@ import { ChartPlanetTypes } from "../../types/ChartTypes";
 
 ChartJS.register(Tooltip, Legend, LinearScale, PointElement);
 
+const discoveryMethods = [
+  { method: "Transit", color: "#8884d8b3", shape: "circle" },
+  { method: "Radial Velocity", color: "#ff6384b3", shape: "triangle" },
+  { method: "Transit Timing Variations", color: "#36a2ebb3", shape: "rect" },
+  { method: "Imaging", color: "#ffce56b3", shape: "star" },
+  {
+    method: "Orbital Brightness Modulation",
+    color: "#4bc0c0b3",
+    shape: "cross",
+  },
+  { method: "Solar System", color: "#9966ffb3", shape: "rectRot" },
+];
+
 const DistanceVsRadius: React.FC<ChartPlanetTypes> = React.memo(({ data }) => {
   // to spread out the chart
   const filteredData = data.filter(
@@ -19,18 +32,18 @@ const DistanceVsRadius: React.FC<ChartPlanetTypes> = React.memo(({ data }) => {
   );
 
   const chartData = {
-    datasets: [
-      {
-        label: "Planets",
-        data: filteredData.map((planet) => ({
-          x: planet.sy_dist, // Distance
+    datasets: discoveryMethods.map((dm) => ({
+      label: dm.method,
+      data: filteredData
+        .filter((planet) => planet.discoverymethod === dm.method)
+        .map((planet) => ({
+          x: planet.sy_dist, // Distances
           y: planet.pl_rade, // Radius
           planetName: planet.pl_name, // Planet name
         })),
-        backgroundColor: "rgba(75, 192, 192, 0.7)",
-        pointStyle: "circle",
-      },
-    ],
+      backgroundColor: dm.color,
+      pointStyle: dm.shape,
+    })),
   };
 
   const options = {
