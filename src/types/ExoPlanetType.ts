@@ -27,6 +27,8 @@ type ExoPlanetType = {
   sy_plx: number; //Parallax [mas]
   sy_bmag: number; //B (Johnson) Magnitude
   st_spectype: string; //Spectral Type
-} & Record<string, unknown>;
+  st_lum: number; //Stellar Luminosity (Log(solar))
+  st_teff: number; //Stellar Effective Temperature [K]
+} & Record<string, any>;
 
 export default ExoPlanetType;

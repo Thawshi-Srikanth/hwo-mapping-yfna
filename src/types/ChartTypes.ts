@@ -4,4 +4,5 @@ interface ChartPlanetTypes {
   data: ExoPlanetType[];
 }
 
+
 export type { ChartPlanetTypes };
