@@ -13,13 +13,16 @@ import { ChartPlanetTypes } from "../../types/ChartTypes";
 ChartJS.register(Tooltip, Legend, LinearScale, PointElement);
 
 const DistanceVsRadius: React.FC<ChartPlanetTypes> = React.memo(({ data }) => {
-  console.log("Received data:", data);
+  // to spread out the chart
+  const filteredData = data.filter(
+    (planet) => planet.sy_dist <= 3000 && planet.pl_rade <= 40
+  );
 
   const chartData = {
     datasets: [
       {
         label: "Planets",
-        data: data.map((planet) => ({
+        data: filteredData.map((planet) => ({
           x: planet.sy_dist, // Distance
           y: planet.pl_rade, // Radius
           planetName: planet.pl_name, // Planet name
@@ -29,8 +32,6 @@ const DistanceVsRadius: React.FC<ChartPlanetTypes> = React.memo(({ data }) => {
       },
     ],
   };
-
-  console.log("Chart data:", chartData);
 
   const options = {
     scales: {
