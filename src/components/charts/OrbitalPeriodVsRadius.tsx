@@ -62,6 +62,8 @@ const OrbitalPeriodVsRadius = ({ data }: { data: ExoPlanetType[] }) => {
   };
 
   const options = {
+    responsive: true,
+    maintainAspectRatio: false,
     scales: {
       x: {
         type: "linear" as const,

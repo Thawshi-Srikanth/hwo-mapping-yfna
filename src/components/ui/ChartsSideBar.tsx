@@ -1,8 +1,11 @@
 // import DistanceVsRadius from "../charts/DistanceVsRadius";
 
 import ExoPlanetType from "../../types/ExoPlanetType";
+import DiscoveryYearBar from "../charts/DiscoveryYearBar";
 import DistanceVsRadius from "../charts/DistanceVsRadius";
 import OrbitalPeriodVsRadius from "../charts/OrbitalPeriodVsRadius";
+import PlanetRadiusDistribution from "../charts/PlanetaryRadiusDistribution";
+import StellarTempVsSemiMajorAxis from "../charts/StellarTempVsSemiMajorAxis";
 
 type Props = {
   isOpen: boolean;
@@ -34,13 +37,42 @@ export default function ChartSideNav({ isOpen, toggleSideNav, data }: Props) {
           <h2 className="text-xl font-semibold mb-2  text-white">
             Distance vs Radius
           </h2>
-          <DistanceVsRadius data={data} />
+          <div className="h-[300px] min-h-[300px]">
+            <DistanceVsRadius data={data} />
+          </div>
         </div>
         <div className="w-full bg-transparent shadow-md rounded-sm p-4">
           <h2 className="text-xl font-semibold mb-2  text-white">
             Orbital Period vs Radius
           </h2>
-          <OrbitalPeriodVsRadius data={data} />
+          <div className="h-[300px] min-h-[300px]">
+            <OrbitalPeriodVsRadius data={data} />
+          </div>
+        </div>
+        <div className="w-full bg-transparent shadow-md rounded-sm p-4">
+          <h2 className="text-xl font-semibold mb-2  text-white">
+            Planetary Radius Distribution
+          </h2>
+          <div className="h-[300px] min-h-[300px]">
+            <PlanetRadiusDistribution data={data} />
+          </div>
+        </div>
+        <div className="w-full bg-transparent shadow-md rounded-sm p-4">
+          <h2 className="text-xl font-semibold mb-2  text-white">
+            Distance Year Distribution
+          </h2>
+          <div className="h-[300px] min-h-[300px]">
+            <DiscoveryYearBar data={data} />
+          </div>
+        </div>
+
+        <div className="w-full bg-transparent shadow-md rounded-sm p-4">
+          <h2 className="text-xl font-semibold mb-2  text-white">
+            Stellar temperature vs Semi Major Axis
+          </h2>
+          <div className="h-[300px] min-h-[300px]">
+            <StellarTempVsSemiMajorAxis data={data} />
+          </div>
         </div>
       </div>
     </div>
