@@ -12,15 +12,6 @@ function App() {
   const [isInfoSideBarOpen, setIsInfoSideBarOpen] = useState(false);
   const [isChartNavOpen, setIsChartNavOpen] = useState(false);
 
-  const [planets, setPlanets] = useState([]);
-  
-  useEffect(() => {
-    fetch("/data/exo-planet-data/planetery_system_composite_data.json")
-      .then((response) => response.json())
-      .then((data) => setPlanets(data.planets))
-      .catch((error) => console.error("Error fetching planet data:", error));
-  }, []);
-
   const toggleToolBarSideBar = () => {
     setIsToolSideBarOpen(!isToolSideBarOpen);
   };
@@ -48,18 +39,6 @@ function App() {
         isOpen={isInfoSideBarOpen}
         toggleSideNav={toggleInfoBarSideBar}
       />
-
-      <ChartSideNav
-        isOpen={isChartNavOpen}
-        toggleSideNav={toggleChartNav}
-        data={planets}
-      />
-
-      <Canvas gl={{ antialias: false }}>
-        <Perf position="bottom-right" />
-        <SceneBackground texturePath="/images/background/stars_8k.webp" />
-      </Canvas>
-
     </div>
   );
 }
