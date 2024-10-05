@@ -10,7 +10,7 @@ export default function InfoSideNav({ isOpen, toggleSideNav }: Props) {
   const [selected, setSelected] = useState<string | null>(null);
   return (
     <div
-      className={`absolute top-0 left-0 h-screen sm:w-[80%] md:w-[50%] lg:w-[20%] bg-black bg-opacity-55 z-20 p-2
+      className={`absolute top-0 left-0 h-screen sm:w-[80%] md:w-[50%] lg:w-[20%] bg-black z-20 p-2
          text-white flex flex-col gap-3 overflow-y-scroll transform transition-transform duration-300 ${
            isOpen ? "translate-x-0" : "-translate-x-full"
          }`}
@@ -96,6 +96,136 @@ export default function InfoSideNav({ isOpen, toggleSideNav }: Props) {
             <li>
               <strong>PS:</strong> Planet-star distance (in astronomical units,
               AU).
+            </li>
+          </ul>
+        </AccordionItem>
+        <AccordionItem value="item3" trigger="SNR Detection Ranges?">
+          <ul className="text-justify">
+            <li className="nowrap">
+              <strong className="text-red-900">SNR &lt; 3:</strong> Unreliable
+              detection, indistinguishable from noise.
+            </li>
+            <li>
+              <strong className="text-red-600">SNR 3 to 5:</strong> Marginal
+              detection, might need follow-up to confirm.
+            </li>
+            <li>
+              <strong className="text-orange-400">SNR 5 to 10:</strong> Minimum
+              threshold for confident detection.
+            </li>
+            <li>
+              <strong className="text-yellow-400">SNR 10 to 20:</strong> Clear
+              detection with good confidence.
+            </li>
+            <li>
+              <strong className="text-green-900">SNR 20 to 50:</strong>{" "}
+              High-confidence detection, enabling precise measurements.
+            </li>
+            <li>
+              <strong className="text-green-500">SNR &gt;= 50:</strong> Very
+              strong detection, suitable for detailed analysis.
+            </li>
+          </ul>
+        </AccordionItem>
+        <AccordionItem value="item4" trigger="Clean Data?">
+          <p>
+            In the NASA Exoplanet Archive, some exoplanet data may not be
+            observed or may be missing. In this context, "clean data" refers to
+            exoplanets that have the most comprehensive dataset available,
+            allowing them to be effectively rendered in the app's 3D space.
+          </p>
+        </AccordionItem>
+        <AccordionItem value="item5" trigger="Galaxy View?">
+          <p>
+            This view presents the entire galaxy in 3D. Due to performance
+            considerations, only the black hole (Sagittarius A*), Earth, and
+            exoplanets are rendered in this view. Users can rotate, zoom, and
+            pan around the center of the galaxy, which is marked by the black
+            hole.
+          </p>
+        </AccordionItem>
+        <AccordionItem value="item6" trigger="HWO View?">
+          <p>
+            This view provides the perspective from the HWO Telescope, allowing
+            users to only rotate and pan.
+          </p>
+        </AccordionItem>
+        <AccordionItem value="item7" trigger="Start Spectral Types?">
+          <ul>
+            <li>
+              <strong>O</strong>: Extremely hot, blue stars, short-lived,
+              massive.
+            </li>
+            <li>
+              <strong>B</strong>: Blue-white, still very hot and massive,
+              luminous.
+            </li>
+            <li>
+              <strong>A</strong>: White, prominent hydrogen lines, hot but less
+              massive.
+            </li>
+            <li>
+              <strong>F</strong>: Yellow-white, moderate temperature, can host
+              planets.
+            </li>
+            <li>
+              <strong>G</strong>: Yellow, like the Sun, habitable zone
+              potential.
+            </li>
+            <li>
+              <strong>K</strong>: Orange, cooler than the Sun, long-lived.
+            </li>
+            <li>
+              <strong>M</strong>: Red dwarfs, cool, small, very long lifespans.
+            </li>
+          </ul>
+        </AccordionItem>
+        <AccordionItem value="item8" trigger="Start Luminosity Classes?">
+          <ul>
+            <li>
+              <strong>I</strong>: Supergiants (massive, evolved stars)
+            </li>
+            <li>
+              <strong>II</strong>: Bright giants
+            </li>
+            <li>
+              <strong>III</strong>: Giants (evolved stars)
+            </li>
+            <li>
+              <strong>IV</strong>: Subgiants (intermediate stage)
+            </li>
+            <li>
+              <strong>V</strong>: Main-sequence stars (like the Sun)
+            </li>
+          </ul>
+        </AccordionItem>
+        <AccordionItem
+          value="item9"
+          trigger="Habitable Zones VS Habitable Planets?"
+        >
+          <ul className="text-xs">
+            <li className="mb-1">
+              <strong>Habitable Zone</strong> refers to the region around a star
+              where conditions might allow for liquid water to exist on a
+              planet’s surface, which is considered a key requirement for life.
+              The exact location of the habitable zone depends on the star’s
+              temperature and size. Hotter, larger stars have their habitable
+              zones farther out, while cooler, smaller stars have zones closer
+              in. However, just being in the habitable zone doesn’t guarantee
+              that a planet is habitable—it only means that the temperature
+              might be right for water to remain liquid.
+            </li>
+            <li>
+              <strong>Habitable Planets</strong> are planets that meet a broader
+              set of criteria that could support life. In addition to being
+              located within the habitable zone, these planets need other
+              favorable conditions, such as a stable atmosphere, suitable
+              gravity, the presence of water, the right chemical composition,
+              and protection from harmful radiation (e.g., via a magnetic
+              field). While being in the habitable zone is important, planets
+              need a combination of many factors to truly be considered
+              habitable, including surface temperature, atmospheric composition,
+              and more.
             </li>
           </ul>
         </AccordionItem>

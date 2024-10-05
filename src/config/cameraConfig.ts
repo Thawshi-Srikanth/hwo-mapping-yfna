@@ -1,0 +1,1 @@
+export const CAMERA_PLANET_SCALING_FACTOR = 0.1;

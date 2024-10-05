@@ -1,18 +1,24 @@
 import { RiToolsFill } from "react-icons/ri";
 import { IoBarChartSharp } from "react-icons/io5";
 import { IoIosInformationCircleOutline } from "react-icons/io";
+import { ViewType } from "../../types/viewTypes";
 import MusicButton from "./MusicButton";
-
 type Props = {
   onToolsClick: () => void;
   onInfoClick: () => void;
   onChartsClick: () => void;
+  setView: (view: ViewType) => void;
+  view: ViewType;
+  resetCamera: () => void;
 };
 
 export default function Header({
   onToolsClick,
   onInfoClick,
   onChartsClick,
+  setView,
+  view,
+  resetCamera,
 }: Props) {
   return (
     <div className="absolute top-0 right-0 flex flex-row justify-between w-screen h-[10%] p-2 text-white z-20">
@@ -31,9 +37,28 @@ export default function Header({
         />
       </div>
       <ul className="flex flex-row gap-3 text-sm md:text-md">
-        <li className={`cursor-pointer  hover:underline`}>Galaxy View</li>
-        <li className={`cursor-pointer hover:underline`}>HWO View</li>
-        <li className={`cursor-pointer hover:underline`}>Reload</li>
+        <li
+          className={`cursor-pointer ${
+            view === "galaxy" ? "underline" : ""
+          } hover:underline`}
+          onClick={() => setView("galaxy")}
+        >
+          Galaxy View
+        </li>
+        <li
+          className={`cursor-pointer ${
+            view === "hwo" ? "underline" : ""
+          } hover:underline`}
+          onClick={() => setView("hwo")}
+        >
+          HWO View
+        </li>
+        <li
+          className={`cursor-pointer hover:underline`}
+          onClick={() => resetCamera()}
+        >
+          Reload
+        </li>
       </ul>
       <div className="cursor-pointer flex flex-row gap-2">
         <MusicButton />
