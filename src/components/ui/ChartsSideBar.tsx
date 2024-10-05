@@ -26,7 +26,12 @@ export default function ChartSideNav({ isOpen, toggleSideNav, data }: Props) {
         </div>
       </div>
       <div className="grid grid-cols-1 gap-4">
-        {data && <DistanceVsRadius data={data} />}
+        <div className="w-full bg-transparent shadow-md rounded-sm p-4">
+          <h2 className="text-xl font-semibold mb-2  text-white">
+            Distance vs Radius
+          </h2>
+          {data && <DistanceVsRadius data={data} />}
+        </div>
       </div>
     </div>
   );
