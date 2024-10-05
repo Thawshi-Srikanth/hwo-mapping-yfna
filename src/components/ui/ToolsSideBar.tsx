@@ -14,9 +14,9 @@ export default function ToolsSideNav({ isOpen, toggleSideNav }: Props) {
   const toolContext = useContext(ToolContext);
   const planetContext = useContext(PlanetContext);
 
-  const handleTeleDiameterSliderChange = (value: number) => {
-    toolContext?.setTelescopeDiameter(value);
-  };
+  // const handleTeleDiameterSliderChange = (value: number) => {
+  //   toolContext?.setTelescopeDiameter(value);
+  // };
 
   const handleSnr0 = (value: number) => {
     toolContext?.setSnr0(value);
@@ -87,14 +87,14 @@ export default function ToolsSideNav({ isOpen, toggleSideNav }: Props) {
         </label>
       </div>
 
-      <RangeItem
+      {/* <RangeItem
         label="HWO Telescope Diameter (m) :"
         min={0}
         max={50}
         id="td"
         onChange={handleTeleDiameterSliderChange}
         defaultValue={toolContext?.telescopeDiameter}
-      />
+      /> */}
       <RangeItem
         label="SNR0 :"
         min={0}
