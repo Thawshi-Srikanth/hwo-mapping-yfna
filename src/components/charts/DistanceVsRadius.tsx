@@ -37,9 +37,9 @@ const DistanceVsRadius: React.FC<ChartPlanetTypes> = React.memo(({ data }) => {
       data: filteredData
         .filter((planet) => planet.discoverymethod === dm.method)
         .map((planet) => ({
-          x: planet.sy_dist, // Distances
-          y: planet.pl_rade, // Radius
-          planetName: planet.pl_name, // Planet name
+          x: planet.sy_dist,
+          y: planet.pl_rade,
+          planetName: planet.pl_name,
         })),
       backgroundColor: dm.color,
       pointStyle: dm.shape,
