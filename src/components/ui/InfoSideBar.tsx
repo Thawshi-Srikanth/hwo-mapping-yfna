@@ -10,7 +10,7 @@ export default function InfoSideNav({ isOpen, toggleSideNav }: Props) {
   const [selected, setSelected] = useState<string | null>(null);
   return (
     <div
-      className={`absolute top-0 left-0 h-screen sm:w-[80%] md:w-[50%] lg:w-[20%] bg-black bg-opacity-55 z-20 p-2
+      className={`absolute top-0 left-0 h-screen sm:w-[80%] md:w-[50%] lg:w-[20%] bg-black z-20 p-2
          text-white flex flex-col gap-3 overflow-y-scroll transform transition-transform duration-300 ${
            isOpen ? "translate-x-0" : "-translate-x-full"
          }`}
