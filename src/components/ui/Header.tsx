@@ -1,6 +1,7 @@
 import { RiToolsFill } from "react-icons/ri";
 import { IoBarChartSharp } from "react-icons/io5";
 import { IoIosInformationCircleOutline } from "react-icons/io";
+import MusicButton from "./MusicButton";
 
 type Props = {};
 
@@ -25,6 +26,7 @@ export default function Header({}: Props) {
         <li className={`cursor-pointer hover:underline`}>Reload</li>
       </ul>
       <div className="cursor-pointer flex flex-row gap-2">
+        <MusicButton />
         <IoBarChartSharp
           color="white"
           size={25}
