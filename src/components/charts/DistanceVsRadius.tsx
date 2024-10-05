@@ -6,12 +6,15 @@ import {
   Legend,
   LinearScale,
   PointElement,
+  TooltipItem,
 } from "chart.js";
 import { ChartPlanetTypes } from "../../types/ChartTypes";
 
 ChartJS.register(Tooltip, Legend, LinearScale, PointElement);
 
 const DistanceVsRadius: React.FC<ChartPlanetTypes> = React.memo(({ data }) => {
+  console.log("Received data:", data);
+
   const chartData = {
     datasets: [
       {
@@ -27,6 +30,8 @@ const DistanceVsRadius: React.FC<ChartPlanetTypes> = React.memo(({ data }) => {
     ],
   };
 
+  console.log("Chart data:", chartData);
+
   const options = {
     scales: {
       x: {
@@ -39,6 +44,21 @@ const DistanceVsRadius: React.FC<ChartPlanetTypes> = React.memo(({ data }) => {
         title: {
           display: true,
           text: "Radius (ER)",
+        },
+      },
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function (tooltipItem: TooltipItem<"scatter">) {
+            const planet = tooltipItem.raw as {
+              planetName: string;
+              x: number;
+              y: number;
+            };
+            console.log("Tooltip item:", tooltipItem);
+            return `Planet: ${planet.planetName}\nDistance: ${planet.x} pc\nRadius: ${planet.y} ER`;
+          },
         },
       },
     },
