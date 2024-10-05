@@ -12,9 +12,20 @@ import ExoPlanetType from "../../types/ExoPlanetType";
 ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
 
 const OrbitalPeriodVsRadius = ({ data }: { data: ExoPlanetType[] }) => {
+  //TODO: SNR calculated and altering the pint size
+
+  const filterRanges = {
+    shortOrbitalPeriod: { min: 1, max: 10 },
+    mediumOrbitalPeriod: { min: 10, max: 20 },
+  };
   // Filter and format data for short orbital periods (<= 50 days)
   const shortOrbitalPeriodData = data
-    .filter((planet) => planet.pl_orbper && planet.pl_orbper <= 50)
+    .filter(
+      (planet) =>
+        planet.pl_orbper &&
+        planet.pl_orbper > filterRanges.shortOrbitalPeriod.min &&
+        planet.pl_orbper <= filterRanges.shortOrbitalPeriod.max
+    )
     .map((planet) => ({
       x: planet.pl_orbper,
       y: planet.pl_rade,
@@ -25,17 +36,10 @@ const OrbitalPeriodVsRadius = ({ data }: { data: ExoPlanetType[] }) => {
   const mediumOrbitalPeriodData = data
     .filter(
       (planet) =>
-        planet.pl_orbper && planet.pl_orbper > 50 && planet.pl_orbper <= 100
+        planet.pl_orbper &&
+        planet.pl_orbper > filterRanges.mediumOrbitalPeriod.min &&
+        planet.pl_orbper <= filterRanges.mediumOrbitalPeriod.max
     )
-    .map((planet) => ({
-      x: planet.pl_orbper,
-      y: planet.pl_rade,
-      planetName: planet.pl_name,
-    }));
-
-  // Filter and format data for large planet radius (> 2 Earth Radii)
-  const largePlanetRadiusData = data
-    .filter((planet) => planet.pl_rade && planet.pl_rade > 2)
     .map((planet) => ({
       x: planet.pl_orbper,
       y: planet.pl_rade,
@@ -53,11 +57,6 @@ const OrbitalPeriodVsRadius = ({ data }: { data: ExoPlanetType[] }) => {
         label: "Orbital Period vs Radius (50 < days <= 100)",
         data: mediumOrbitalPeriodData,
         backgroundColor: "#8884d8",
-      },
-      {
-        label: "Large Planet Radius (> 2 ER)",
-        data: largePlanetRadiusData,
-        backgroundColor: "#ffc658",
       },
     ],
   };
