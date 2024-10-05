@@ -11,6 +11,7 @@ import PlanetContext from "./context/planets/PlanetContext";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import * as THREE from "three";
+import Scene from "./components/Scene";
 function App() {
   const [isToolSideBarOpen, setIsToolSideBarOpen] = useState(false);
   const [isInfoSideBarOpen, setIsInfoSideBarOpen] = useState(false);
@@ -74,6 +75,7 @@ function App() {
             rotateSpeed={0.02}
           />
           <SceneBackground texturePath="/images/background/stars_8k.webp" />
+          <Scene />
         </Canvas>
       )}
     </div>
