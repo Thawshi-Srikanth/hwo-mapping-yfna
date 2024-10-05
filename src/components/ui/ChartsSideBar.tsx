@@ -1,11 +1,15 @@
 // import DistanceVsRadius from "../charts/DistanceVsRadius";
 
+import ExoPlanetType from "../../types/ExoPlanetType";
+import DistanceVsRadius from "../charts/DistanceVsRadius";
+
 type Props = {
   isOpen: boolean;
   toggleSideNav: () => void;
+  data: ExoPlanetType[] | undefined;
 };
 
-export default function ChartSideNav({ isOpen, toggleSideNav }: Props) {
+export default function ChartSideNav({ isOpen, toggleSideNav, data }: Props) {
   return (
     <div
       className={`absolute top-0 right-0 h-screen xs:w-full md:w-[50%] lg:w-[60%] bg-black z-20 p-2
@@ -21,7 +25,9 @@ export default function ChartSideNav({ isOpen, toggleSideNav }: Props) {
           X
         </div>
       </div>
-      <div className="grid grid-cols-1 gap-4">Content</div>
+      <div className="grid grid-cols-1 gap-4">
+        {data && <DistanceVsRadius data={data} />}
+      </div>
     </div>
   );
 }
