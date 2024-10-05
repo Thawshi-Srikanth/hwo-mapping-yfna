@@ -1,6 +1,6 @@
-import { Sparkles } from "../components/sparkles";
+import { Sparkles } from "../sparkles";
 import Lottie from "lottie-react";
-import animationData from "../assets/animations/telescope.json";
+import animationData from "../../assets/animations/telescope.json";
 
 function PreLoader() {
   return (
