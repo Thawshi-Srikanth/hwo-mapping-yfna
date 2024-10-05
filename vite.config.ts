@@ -13,4 +13,20 @@ export default defineConfig({
   worker: {
     format: "es", // Use ES modules for workers
   },
+  build: {
+    target: "esnext",
+    outDir: "dist",
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, "index.html"),
+        "web-workers/snrWorker": resolve(
+          __dirname,
+          "./src/web-workers/snrWorker.ts"
+        ),
+      },
+      output: {
+        entryFileNames: "[name].js",
+      },
+    },
+  },
 });
