@@ -10,38 +10,46 @@ import {
 import { Bar } from "react-chartjs-2";
 import ExoPlanetType from "../../types/ExoPlanetType";
 
-// Register required elements with Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
+
+const discoveryMethods = [
+  { method: "Transit", color: "#8884d8b3", shape: "circle" },
+  { method: "Radial Velocity", color: "#ff6384b3", shape: "triangle" },
+  { method: "Transit Timing Variations", color: "#36a2ebb3", shape: "rect" },
+  { method: "Imaging", color: "#ffce56b3", shape: "star" },
+  {
+    method: "Orbital Brightness Modulation",
+    color: "#4bc0c0b3",
+    shape: "cross",
+  },
+  { method: "Solar System", color: "#9966ffb3", shape: "rectRot" },
+];
 
 const PlanetRadiusDistributionChartJS = ({
   data,
 }: {
   data: ExoPlanetType[];
 }) => {
-  // Organize data by radius buckets
-  const radiusBuckets = data.reduce((acc, planet) => {
-    const radius = Math.floor(planet.pl_rade || 0);
-    acc[radius] = (acc[radius] || 0) + 1;
-    return acc;
-  }, {} as Record<number, number>);
-
-  // Prepare chartData labels
   const labels = Array.from(
     new Set(data.map((planet) => Math.floor(planet.pl_rade || 0)))
   ).sort((a, b) => a - b);
 
-  // Prepare data for Chart.js
   const chartData = {
     labels: labels.map((radius) => `${radius} AU`),
-    datasets: [
-      {
-        label: "Planet Count",
-        data: labels.map((radius) => radiusBuckets[radius] || 0),
-        backgroundColor: "#82ca9d",
-        stack: "stacked",
-        hidden: false,
-      },
-    ],
+    datasets: discoveryMethods.map((method) => ({
+      label: method.method,
+      data: labels.map(
+        (radius) =>
+          data.filter(
+            (planet) =>
+              Math.floor(planet.pl_rade || 0) === radius &&
+              planet.discoverymethod === method.method
+          ).length
+      ),
+      backgroundColor: method.color,
+      stack: "stacked",
+      hidden: false,
+    })),
   };
 
   const options = {
