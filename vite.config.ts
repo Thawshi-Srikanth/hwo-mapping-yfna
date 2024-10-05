@@ -23,6 +23,10 @@ export default defineConfig({
           __dirname,
           "./src/web-workers/snrWorker.ts"
         ),
+        "web-workers/planetFilterWorker": resolve(
+          __dirname,
+          "./src/web-workers/planetFilterWorker.ts"
+        ),
       },
       output: {
         entryFileNames: "[name].js",
