@@ -4,8 +4,8 @@ export const COLOR_UNRELIABLE = "darkred"; // SNR < 3
 export const COLOR_MARGINAL_LOW = "red"; // SNR 3 to 5
 export const COLOR_MARGINAL_HIGH = "orange"; // SNR 5 to 10
 export const COLOR_CLEAR_LOW = "yellow"; // SNR 10 to 20
-export const COLOR_CLEAR_HIGH = "darkgreen"; // SNR 20 to 50
-export const COLOR_VERY_STRONG = "green"; // SNR > 50
+export const COLOR_CLEAR_HIGH = "green"; // SNR 20 to 50
+export const COLOR_VERY_STRONG = "lightgreen"; // SNR > 50
 
 // SNR categories
 export const SNR_UNRELIABLE = 3; // SNR < 3: Unreliable detection, indistinguishable from noise.

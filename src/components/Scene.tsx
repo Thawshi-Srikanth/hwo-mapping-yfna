@@ -191,7 +191,7 @@ function Scene({
           planet.st_teff,
           planet.pl_orbsmax
         );
-        planet.isHabitable = isHabitable; // Add the isHabitable field
+        if (toolContext?.isHZActivated) planet.isHabitable = isHabitable; // Add the isHabitable field
       }
       planets.push(planet);
       colors.push(getPlanetColorBySNR(planet.snr));

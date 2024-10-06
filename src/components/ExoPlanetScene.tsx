@@ -7,7 +7,6 @@ import { EARTH_POSITION, GLOBAL_PLANET_RADIUS } from "../config/planetConfig";
 import { useFrame, useThree } from "@react-three/fiber";
 import { CAMERA_PLANET_SCALING_FACTOR } from "../config/cameraConfig";
 import ExoPlanetTag from "./ExoPlanetTag";
-
 import vertexShader from "./shaders/vertexShader.glsl";
 import fragmentShader from "./shaders/fragmentShader.glsl";
 
@@ -43,7 +42,7 @@ const ExoplanetScene = memo(({ planets, colors, snrValues }: Props) => {
       const emissiveColorArray = new Float32Array(planets.length * 3);
       const emissiveIntensityArray = new Float32Array(planets.length);
 
-      planets.forEach((planet, i) => {
+      planets.forEach((_planet, i) => {
         emissiveColorArray.set(emissiveColors[i].toArray(), i * 3);
         emissiveIntensityArray[i] = emissiveIntensities[i];
       });
@@ -83,7 +82,7 @@ const ExoplanetScene = memo(({ planets, colors, snrValues }: Props) => {
 
         // Pulse effect for habitable planets
         if (planet.isHabitable) {
-          const pulse = 1 + Math.sin(time * 2) * 0.5; // Pulse using sine wave
+          const pulse = 1.5 + Math.sin(time * 4) * 0.5; // Pulse using sine wave
           scale *= pulse; // Scale habitable planets dynamically
         }
 
@@ -129,7 +128,7 @@ const ExoplanetScene = memo(({ planets, colors, snrValues }: Props) => {
     <>
       <instancedMesh
         ref={ref}
-        args={[null, null, planets.length]} // set the instance count
+        args={[undefined, undefined, planets.length]} // set the instance count
         onPointerMove={handlePointerMove}
         onPointerOut={handlePointerOut}
         onClick={handlePointerClick}

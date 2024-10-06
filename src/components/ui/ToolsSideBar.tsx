@@ -73,18 +73,6 @@ export default function ToolsSideNav({ isOpen, toggleSideNav }: Props) {
         <input
           type="checkbox"
           id="cleanData"
-          onChange={handleInstantMeshToggle}
-          checked={toolContext?.isInstantMesh}
-        />
-        <label htmlFor="cleanData" className="ml-2">
-          Is Instant Mesh
-        </label>
-      </div>
-
-      <div className="flex items-center text-xs mb-2">
-        <input
-          type="checkbox"
-          id="cleanData"
           onChange={handleCleanDataToggle}
           checked={planetContext?.isCleanData}
         />
@@ -166,6 +154,18 @@ export default function ToolsSideNav({ isOpen, toggleSideNav }: Props) {
         defaultMin={0}
         defaultMax={200}
       />
+
+      <div className="flex items-center text-xs my-2">
+        <input
+          type="checkbox"
+          id="cleanData"
+          onChange={handleInstantMeshToggle}
+          checked={toolContext?.isInstantMesh}
+        />
+        <label htmlFor="cleanData" className="ml-2">
+          Is Instant Mesh (Low CPU/GPU Usage)
+        </label>
+      </div>
     </div>
   );
 }
