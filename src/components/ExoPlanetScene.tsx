@@ -137,7 +137,6 @@ const ExoplanetScene = memo(({ planets, colors, snrValues }: Props) => {
           relativePosition.z
         )
       );
-      console.log("Clicked planet:", planet);
     }
   };
 
