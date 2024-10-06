@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { memo, useRef, useState, useEffect } from "react";
+import { memo, useRef, useState, useEffect, useMemo } from "react";
 import ExoPlanetType from "../types/ExoPlanetType";
 import * as THREE from "three";
 import { convertToGalaxyCoordinates } from "../lib/convet-to-galaxy-cartesian-coordinates";
 import { EARTH_POSITION, GLOBAL_PLANET_RADIUS } from "../config/planetConfig";
-import { useFrame, useThree } from "@react-three/fiber";
+import { ThreeEvent, useFrame, useThree } from "@react-three/fiber";
 import { CAMERA_PLANET_SCALING_FACTOR } from "../config/cameraConfig";
 import ExoPlanetTag from "./ExoPlanetTag";
 import vertexShader from "./shaders/vertexShader.glsl";
@@ -23,19 +22,25 @@ const ExoplanetScene = memo(({ planets, colors, snrValues }: Props) => {
   const [clickedInstanceId, setClickedInstanceId] = useState<number | null>(
     null
   );
-
-  // Create arrays for colors and intensities
-  const emissiveColors = planets.map((planet, i) => {
-    if (planet.isHabitable) {
-      return new THREE.Color(0, 0, 1); // Blue color for habitable planets
-    } else {
-      return new THREE.Color(colors[i] || "red"); // Default color
-    }
-  });
-
-  const emissiveIntensities = planets.map((planet) =>
-    planet.isHabitable ? 2 : 1
+  const [clickedPosition, setClickedPosition] = useState<THREE.Vector3 | null>(
+    null
   );
+
+  // Memoize emissive colors and intensities
+  const { emissiveColors, emissiveIntensities } = useMemo(() => {
+    const colorsArray = planets.map((planet, i) =>
+      planet.isHabitable
+        ? new THREE.Color(0, 0, 1)
+        : new THREE.Color(colors[i] || "red")
+    );
+    const intensitiesArray = planets.map((planet) =>
+      planet.isHabitable ? 2 : 1
+    );
+    return {
+      emissiveColors: colorsArray,
+      emissiveIntensities: intensitiesArray,
+    };
+  }, [planets, colors]);
 
   useEffect(() => {
     if (ref.current) {
@@ -61,8 +66,8 @@ const ExoplanetScene = memo(({ planets, colors, snrValues }: Props) => {
   useFrame(({ clock }) => {
     const time = clock.getElapsedTime();
 
-    planets.forEach((planet, i) => {
-      if (ref.current) {
+    if (ref.current) {
+      planets.forEach((planet, i) => {
         const relativePosition = convertToGalaxyCoordinates(
           planet.ra,
           planet.dec,
@@ -93,34 +98,46 @@ const ExoplanetScene = memo(({ planets, colors, snrValues }: Props) => {
           relativePosition.z
         );
         tempObject.updateMatrix();
-        ref.current.setMatrixAt(i, tempObject.matrix);
-      }
-    });
+        if (ref.current) {
+          ref.current.setMatrixAt(i, tempObject.matrix);
+        }
+      });
 
-    if (ref.current) {
       ref.current.instanceMatrix.needsUpdate = true;
     }
   });
 
-  const handlePointerMove = (e: any) => {
+  const handlePointerMove = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
-    const instanceId = e.instanceId;
-    if (instanceId !== undefined) {
-      document.body.style.cursor = "pointer";
-    }
+
+    document.body.style.cursor = "pointer";
   };
 
-  const handlePointerOut = (e: any) => {
+  const handlePointerOut = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
     document.body.style.cursor = "default";
   };
 
-  const handlePointerClick = (e: any) => {
+  const handlePointerClick = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
     const instanceId = e.instanceId;
     if (instanceId !== undefined) {
       setClickedInstanceId(instanceId);
-      console.log("Clicked planet:", planets[instanceId]);
+      const planet = planets[instanceId];
+      const relativePosition = convertToGalaxyCoordinates(
+        planet.ra,
+        planet.dec,
+        planet.sy_dist,
+        EARTH_POSITION
+      );
+      setClickedPosition(
+        new THREE.Vector3(
+          relativePosition.x,
+          relativePosition.y,
+          relativePosition.z
+        )
+      );
+      console.log("Clicked planet:", planet);
     }
   };
 
@@ -135,7 +152,6 @@ const ExoplanetScene = memo(({ planets, colors, snrValues }: Props) => {
       >
         <sphereGeometry args={[GLOBAL_PLANET_RADIUS, 10, 10]} />
 
-        {/* Custom ShaderMaterial for dynamic emissive color and intensity */}
         <shaderMaterial
           attach="material"
           vertexShader={vertexShader} // Add custom vertex shader
@@ -150,6 +166,7 @@ const ExoplanetScene = memo(({ planets, colors, snrValues }: Props) => {
               key={i}
               planet={planet}
               snr={snrValues[i]}
+              position={clickedPosition}
               onClick={() => {
                 setClickedInstanceId(null);
               }}
