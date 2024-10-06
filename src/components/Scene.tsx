@@ -17,7 +17,6 @@ import ToolContext from "../context/tools/ToolContext";
 import { getPlanetColorBySNR } from "../lib/exo-planet-color-filter";
 import gsap from "gsap";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
-import { a, use } from "framer-motion/client";
 import { isExoplanetWithinHabitableZone } from "../lib/habitability-calculation";
 
 // Use import.meta.url to set the worker URL correctly
