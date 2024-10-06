@@ -20,10 +20,10 @@ import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import { isExoplanetWithinHabitableZone } from "../lib/habitability-calculation";
 
 // Use import.meta.url to set the worker URL correctly
-const snrWorkerUrl = new URL(`../web-workers/snrWorker.ts`, import.meta.url);
+const snrWorkerUrl = new URL(`../web-workers/snrWorker.js`, import.meta.url);
 
 const filterWorkerUrl = new URL(
-  `../web-workers/planetFilterWorker.ts`,
+  `../web-workers/planetFilterWorker.js`,
   import.meta.url
 );
 

@@ -2,7 +2,7 @@ import "./App.css";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, PerspectiveCamera } from "@react-three/drei";
 import SceneBackground from "./components/SceneBackground";
-import { Perf } from "r3f-perf";
+// import { Perf } from "r3f-perf";
 import Scene from "./components/Scene";
 import { NUMBER_OF_STARS } from "./config/galaxyConfig";
 import Header from "./components/ui/Header";
@@ -76,7 +76,7 @@ export default function App() {
         </div>
       ) : (
         <Canvas gl={{ antialias: false }}>
-          <Perf position="bottom-right" />
+          {/* <Perf position="bottom-right" /> */}
           <PerspectiveCamera
             ref={cameraRef}
             makeDefault
