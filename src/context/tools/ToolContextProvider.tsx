@@ -24,6 +24,7 @@ const ToolContextProvider = ({ children }: Props) => {
   );
   const [exoPlanetType, setExoPlanetType] = useState<string>("");
   const [isHZActivated, setIsHZActivated] = useState<boolean>(false);
+  const [isInstantMesh, setIsInstanceMesh] = useState<boolean>(true);
 
   return (
     <ToolContext.Provider
@@ -44,6 +45,8 @@ const ToolContextProvider = ({ children }: Props) => {
         setExoPlanetType,
         isHZActivated,
         setIsHZActivated,
+        isInstantMesh,
+        setIsInstanceMesh,
       }}
     >
       {children}

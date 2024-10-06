@@ -17,6 +17,8 @@ type ToolContextType = {
   setExoPlanetType: (value: string) => void;
   isHZActivated: boolean;
   setIsHZActivated: (value: boolean) => void;
+  isInstantMesh: boolean;
+  setIsInstanceMesh: (value: boolean) => void;
 };
 
 export default ToolContextType;
