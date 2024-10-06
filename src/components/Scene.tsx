@@ -207,7 +207,7 @@ function Scene({
     });
 
     return { planets, colors, snrValues };
-  }, [calculatedPlanets]);
+  }, [calculatedPlanets, toolContext?.isHZActivated]);
 
   return (
     <group ref={groupRef}>
