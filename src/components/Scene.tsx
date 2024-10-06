@@ -19,11 +19,19 @@ import gsap from "gsap";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import { isExoplanetWithinHabitableZone } from "../lib/habitability-calculation";
 
-// Use import.meta.url to set the worker URL correctly
-const snrWorkerUrl = new URL(`../web-workers/snrWorker.js`, import.meta.url);
+// Determine if the current mode is development
+const isDevelopment = import.meta.env.MODE === "development";
+
+// Use the appropriate worker URLs based on the environment
+const snrWorkerUrl = new URL(
+  isDevelopment ? `../web-workers/snrWorker.ts` : `../web-workers/snrWorker.js`,
+  import.meta.url
+);
 
 const filterWorkerUrl = new URL(
-  `../web-workers/planetFilterWorker.js`,
+  isDevelopment
+    ? `../web-workers/planetFilterWorker.ts`
+    : `../web-workers/planetFilterWorker.js`,
   import.meta.url
 );
 
@@ -172,8 +180,8 @@ function Scene({
     });
   }, [calculatedPlanets]);
 
-  const isValidNumber = (value: any) =>
-    value != null && value !== "" && !isNaN(value);
+  const isValidNumber = (value: string | number | null | undefined) =>
+    value != null && value !== "" && !isNaN(Number(value));
   const allPlanetsData = useMemo(() => {
     const planets: ExoPlanetType[] = [];
     const colors: string[] = [];
@@ -199,7 +207,7 @@ function Scene({
     });
 
     return { planets, colors, snrValues };
-  }, [calculatedPlanets]);
+  }, [calculatedPlanets, toolContext?.isHZActivated]);
 
   return (
     <group ref={groupRef}>

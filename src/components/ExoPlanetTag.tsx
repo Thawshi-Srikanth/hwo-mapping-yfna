@@ -1,17 +1,19 @@
 import { Html } from "@react-three/drei";
 import { GLOBAL_PLANET_RADIUS } from "../config/planetConfig";
 import ExoPlanetType from "../types/ExoPlanetType";
+import { Vector3 } from "three";
 
 type Props = {
   planet: ExoPlanetType;
   onClick: () => void;
   snr: number;
+  position: Vector3 | null;
 };
 
-function ExoPlanetTag({ planet, onClick, snr }: Props) {
+function ExoPlanetTag({ planet, onClick, snr, position }: Props) {
   return (
     <Html
-      position={[0, GLOBAL_PLANET_RADIUS, 0]} // Position the label slightly above the sphere
+      position={position ? position : [0, GLOBAL_PLANET_RADIUS, 0]} // Position the label slightly above the sphere
       center
     >
       <div className="absolute bottom-0 left-0 z-10 p-1 bg-black text-[12px] text-nowrap">
