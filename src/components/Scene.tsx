@@ -67,6 +67,9 @@ function Scene({
       cameraRef.current &&
       controlsRef.current
     ) {
+      // Disable controls
+      controlsRef.current.enabled = false;
+
       const targetPosition =
         view === "galaxy"
           ? blackHoleRef.current.position
@@ -85,6 +88,12 @@ function Scene({
         ease: "power1.inOut", // Use a smoother easing function
         onUpdate: () => {
           if (cameraRef.current) setViewPosition(cameraRef.current.position);
+        },
+        onComplete: () => {
+          // Enable controls after animation
+          if (controlsRef.current) {
+            controlsRef.current.enabled = true;
+          }
         },
       });
 
