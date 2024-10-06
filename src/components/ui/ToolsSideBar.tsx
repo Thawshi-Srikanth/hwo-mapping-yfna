@@ -38,6 +38,12 @@ export default function ToolsSideNav({ isOpen, toggleSideNav }: Props) {
     toolContext?.setStellarRadius(value);
   };
 
+  const handleInstantMeshToggle = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    toolContext?.setIsInstanceMesh(event.target.checked);
+  };
+
   const handleCleanDataToggle = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -61,6 +67,17 @@ export default function ToolsSideNav({ isOpen, toggleSideNav }: Props) {
         >
           X
         </div>
+      </div>
+
+      <div className="flex items-center text-xs mb-2">
+        <input
+          type="checkbox"
+          id="cleanData"
+          onChange={handleInstantMeshToggle}
+        />
+        <label htmlFor="cleanData" className="ml-2">
+          Is Instant Mesh
+        </label>
       </div>
 
       <div className="flex items-center text-xs mb-2">
