@@ -10,7 +10,7 @@ type Props = {
 
 const ToolContextProvider = ({ children }: Props) => {
   //const [telescopeDiameter, setTelescopeDiameter] = useState<number>(0);
-  const [snr0, setSnr0] = useState<number>(SNR0);
+  //const [snr0, setSnr0] = useState<number>(SNR0);
   const [systemDistance, setSystemDistance] = useState<MinMaxType | undefined>(
     undefined
   );
@@ -36,33 +36,52 @@ const ToolContextProvider = ({ children }: Props) => {
         step: 0.01,
         suffix: " m",
       },
+      snr0: {
+        label: "SNR 0",
+        value: SNR0,
+        min: 0,
+        max: 50,
+        step: 0.01,
+        suffix: " m",
+      },
     };
   }, []);
 
-  const { telescopeDiameter } = useControls(options);
+  const { telescopeDiameter, snr0 } = useControls(options);
+
+  const contextValue = useMemo(
+    () => ({
+      telescopeDiameter,
+      snr0,
+      systemDistance,
+      setSystemDistance,
+      orbitalDistance,
+      setOrbitalDistance,
+      planetRadius,
+      setPlanetRadius,
+      stellarRadius,
+      setStellarRadius,
+      exoPlanetType,
+      setExoPlanetType,
+      isHZActivated,
+      setIsHZActivated,
+    }),
+    [
+      telescopeDiameter,
+      snr0,
+      systemDistance,
+      orbitalDistance,
+      planetRadius,
+      stellarRadius,
+      exoPlanetType,
+      isHZActivated,
+    ]
+  );
+
   return (
     <>
       <Leva theme={{ sizes: { rootWidth: "300px" } }} />
-      <ToolContext.Provider
-        value={{
-          telescopeDiameter,
-          //setTelescopeDiameter,
-          snr0,
-          setSnr0,
-          systemDistance,
-          setSystemDistance,
-          orbitalDistance,
-          setOrbitalDistance,
-          planetRadius,
-          setPlanetRadius,
-          stellarRadius,
-          setStellarRadius,
-          exoPlanetType,
-          setExoPlanetType,
-          isHZActivated,
-          setIsHZActivated,
-        }}
-      >
+      <ToolContext.Provider value={contextValue}>
         {children}
       </ToolContext.Provider>
     </>
