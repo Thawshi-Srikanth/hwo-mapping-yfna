@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { memo, useContext, useRef, useState } from "react";
 import ExoPlanetType from "../types/ExoPlanetType";
 import * as THREE from "three";
@@ -6,7 +8,7 @@ import { convertToGalaxyCoordinates } from "../lib/convet-to-galaxy-cartesian-co
 import { EARTH_POSITION, GLOBAL_PLANET_RADIUS } from "../config/planetConfig";
 import { useFrame, useThree } from "@react-three/fiber";
 import { CAMERA_PLANET_SCALING_FACTOR } from "../config/cameraConfig";
-import ExoPlanetTag from "./ExoPlanetTag";
+// import ExoPlanetTag from "./ExoPlanetTag";
 import { isExoplanetWithinHabitableZone } from "../lib/habitability-calculation";
 import PingAnimation from "./PingAnimation";
 import ToolContext from "../context/tools/ToolContext";
@@ -86,9 +88,9 @@ const ExoPlanet = memo(({ planet, color = "red", snrValue }: Props) => {
       onPointerOver={handlePointerOver}
       onPointerOut={handlePointerOut}
     >
-      {isPlanetTagVisible && (
+      {/* {isPlanetTagVisible && (
         <ExoPlanetTag planet={planet} snr={snrValue} onClick={planetOnClick} />
-      )}
+      )} */}
       <Sphere args={[GLOBAL_PLANET_RADIUS, 10, 10]}>
         <meshStandardMaterial
           emissive={color}
