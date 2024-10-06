@@ -88,7 +88,7 @@ const ExoplanetScene = memo(({ planets, colors, snrValues }: Props) => {
         // Pulse effect for habitable planets
         if (planet.isHabitable) {
           const pulse = 1.5 + Math.sin(time * 4) * 0.5; // Pulse using sine wave
-          scale *= pulse; // Scale habitable planets dynamically
+          scale *= pulse + 0.2; // Scale habitable planets dynamically
         }
 
         tempObject.scale.set(scale, scale, scale);
@@ -109,7 +109,6 @@ const ExoplanetScene = memo(({ planets, colors, snrValues }: Props) => {
 
   const handlePointerMove = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
-
     document.body.style.cursor = "pointer";
   };
 
