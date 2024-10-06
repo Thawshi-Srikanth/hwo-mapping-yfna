@@ -180,8 +180,8 @@ function Scene({
     });
   }, [calculatedPlanets]);
 
-  const isValidNumber = (value: any) =>
-    value != null && value !== "" && !isNaN(value);
+  const isValidNumber = (value: string | number | null | undefined) =>
+    value != null && value !== "" && !isNaN(Number(value));
   const allPlanetsData = useMemo(() => {
     const planets: ExoPlanetType[] = [];
     const colors: string[] = [];
