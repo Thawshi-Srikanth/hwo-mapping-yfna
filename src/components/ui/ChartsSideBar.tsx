@@ -25,7 +25,7 @@ export default function ChartSideNav({
   }
   return (
     <div
-      className={`absolute top-0 right-0 h-screen xs:w-full md:w-[50%] lg:w-[60%] bg-black z-20 p-2
+      className={`absolute top-0 right-0 h-screen xs:w-full md:w-[50%] lg:w-[60%] bg-black z-[9999] p-2
       text-white flex flex-col gap-3 overflow-y-scroll transform transition-transform duration-300 ${
         isOpen ? "translate-x-0" : "translate-x-full"
       }`}
