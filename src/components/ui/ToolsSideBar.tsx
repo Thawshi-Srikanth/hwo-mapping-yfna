@@ -74,6 +74,7 @@ export default function ToolsSideNav({ isOpen, toggleSideNav }: Props) {
           type="checkbox"
           id="cleanData"
           onChange={handleInstantMeshToggle}
+          checked={toolContext?.isInstantMesh}
         />
         <label htmlFor="cleanData" className="ml-2">
           Is Instant Mesh
