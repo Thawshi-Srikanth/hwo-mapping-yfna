@@ -13,7 +13,34 @@ ChartJS.register(LinearScale, PointElement, Tooltip, Legend);
 
 const OrbitalPeriodVsRadius = ({ data }: { data: ExoPlanetType[] }) => {
   //TODO: SNR calculated and altering the pint size
+  const calculateSNR = (
+    planet: ExoPlanetType,
+    telescopeDiameter: number = 6
+  ) => {
+    const SNR0 = 10;
+    const { st_rad, pl_rade, sy_dist, pl_orbsmax } = planet;
 
+    if (
+      !st_rad ||
+      !pl_rade ||
+      !sy_dist ||
+      !pl_orbsmax ||
+      sy_dist <= 0 ||
+      pl_orbsmax <= 0
+    ) {
+      return 0;
+    }
+
+    const snr =
+      SNR0 *
+      Math.pow(
+        (st_rad * pl_rade * (telescopeDiameter / 6)) /
+          ((sy_dist / 10) * pl_orbsmax),
+        2
+      );
+
+    return snr;
+  };
   const filterRanges = {
     shortOrbitalPeriod: { min: 1, max: 10 },
     mediumOrbitalPeriod: { min: 10, max: 20 },
@@ -29,6 +56,7 @@ const OrbitalPeriodVsRadius = ({ data }: { data: ExoPlanetType[] }) => {
     .map((planet) => ({
       x: planet.pl_orbper,
       y: planet.pl_rade,
+      snr: calculateSNR(planet),
       planetName: planet.pl_name,
     }));
 
@@ -43,6 +71,7 @@ const OrbitalPeriodVsRadius = ({ data }: { data: ExoPlanetType[] }) => {
     .map((planet) => ({
       x: planet.pl_orbper,
       y: planet.pl_rade,
+      snr: calculateSNR(planet),
       planetName: planet.pl_name,
     }));
 
@@ -52,11 +81,17 @@ const OrbitalPeriodVsRadius = ({ data }: { data: ExoPlanetType[] }) => {
         label: "Orbital Period vs Radius (<= 50 days)",
         data: shortOrbitalPeriodData,
         backgroundColor: "#82ca9d",
+        pointRadius: shortOrbitalPeriodData.map((d) =>
+          Math.min(10, Math.max(2, d.snr / 1000))
+        ),
       },
       {
         label: "Orbital Period vs Radius (50 < days <= 100)",
         data: mediumOrbitalPeriodData,
         backgroundColor: "#8884d8",
+        pointRadius: mediumOrbitalPeriodData.map((d) =>
+          Math.min(10, Math.max(2, d.snr / 1000))
+        ),
       },
     ],
   };
