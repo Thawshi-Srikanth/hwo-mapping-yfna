@@ -19,7 +19,7 @@ type Props = {
   snrValue: number;
 };
 
-const ExoPlanet = memo(({ planet, color = "red", snrValue }: Props) => {
+const ExoPlanet = memo(({ planet, color = "red" }: Props) => {
   const [isPlanetTagVisible, setIsPlanetTagVisible] = useState<boolean>(false);
   const { camera } = useThree(); // Access the camera from the context
   let isHabitable = false;
