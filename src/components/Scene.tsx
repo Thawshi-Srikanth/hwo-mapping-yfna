@@ -19,6 +19,7 @@ import gsap from "gsap";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import { isExoplanetWithinHabitableZone } from "../lib/habitability-calculation";
 
+
 // Determine if the current mode is development
 const isDevelopment = import.meta.env.MODE === "development";
 
