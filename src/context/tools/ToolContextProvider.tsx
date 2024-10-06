@@ -25,6 +25,7 @@ const ToolContextProvider = ({ children }: Props) => {
   );
   const [exoPlanetType, setExoPlanetType] = useState<string>("");
   const [isHZActivated, setIsHZActivated] = useState<boolean>(false);
+  const [isInstantMesh, setIsInstanceMesh] = useState<boolean>(true);
 
   const options = useMemo(() => {
     return {
