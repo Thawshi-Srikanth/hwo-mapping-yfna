@@ -18,6 +18,7 @@ import { getPlanetColorBySNR } from "../lib/exo-planet-color-filter";
 import gsap from "gsap";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import { a, use } from "framer-motion/client";
+import { isExoplanetWithinHabitableZone } from "../lib/habitability-calculation";
 
 // Use import.meta.url to set the worker URL correctly
 const snrWorkerUrl = new URL(`../web-workers/snrWorker.ts`, import.meta.url);
@@ -172,12 +173,27 @@ function Scene({
     });
   }, [calculatedPlanets]);
 
+  const isValidNumber = (value: any) =>
+    value != null && value !== "" && !isNaN(value);
   const allPlanetsData = useMemo(() => {
     const planets: ExoPlanetType[] = [];
     const colors: string[] = [];
     const snrValues: number[] = [];
 
     calculatedPlanets.forEach((planet) => {
+      if (
+        isValidNumber(planet.pl_orbsmax) &&
+        isValidNumber(planet.st_teff) &&
+        isValidNumber(planet.pl_rade)
+      ) {
+        const isHabitable = isExoplanetWithinHabitableZone(
+          planet.pl_name,
+          planet.st_rad,
+          planet.st_teff,
+          planet.pl_orbsmax
+        );
+        planet.isHabitable = isHabitable; // Add the isHabitable field
+      }
       planets.push(planet);
       colors.push(getPlanetColorBySNR(planet.snr));
       snrValues.push(planet.snr);

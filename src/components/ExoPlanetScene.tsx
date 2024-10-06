@@ -1,13 +1,15 @@
-import { memo, useContext, useRef, useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { memo, useRef, useState, useEffect } from "react";
 import ExoPlanetType from "../types/ExoPlanetType";
 import * as THREE from "three";
 import { convertToGalaxyCoordinates } from "../lib/convet-to-galaxy-cartesian-coordinates";
 import { EARTH_POSITION, GLOBAL_PLANET_RADIUS } from "../config/planetConfig";
 import { useFrame, useThree } from "@react-three/fiber";
 import { CAMERA_PLANET_SCALING_FACTOR } from "../config/cameraConfig";
-import ToolContext from "../context/tools/ToolContext";
-import { Sphere } from "@react-three/drei";
 import ExoPlanetTag from "./ExoPlanetTag";
+
+import vertexShader from "./shaders/vertexShader.glsl";
+import fragmentShader from "./shaders/fragmentShader.glsl";
 
 type Props = {
   planets: ExoPlanetType[];
@@ -16,14 +18,50 @@ type Props = {
 };
 
 const ExoplanetScene = memo(({ planets, colors, snrValues }: Props) => {
-  const { camera } = useThree(); // Access the camera from the context
-  const toolContext = useContext(ToolContext);
+  const { camera } = useThree();
   const ref = useRef<THREE.InstancedMesh>(null);
   const tempObject = new THREE.Object3D();
   const [clickedInstanceId, setClickedInstanceId] = useState<number | null>(
     null
   );
-  useFrame(() => {
+
+  // Create arrays for colors and intensities
+  const emissiveColors = planets.map((planet, i) => {
+    if (planet.isHabitable) {
+      return new THREE.Color(0, 0, 1); // Blue color for habitable planets
+    } else {
+      return new THREE.Color(colors[i] || "red"); // Default color
+    }
+  });
+
+  const emissiveIntensities = planets.map((planet) =>
+    planet.isHabitable ? 2 : 1
+  );
+
+  useEffect(() => {
+    if (ref.current) {
+      const emissiveColorArray = new Float32Array(planets.length * 3);
+      const emissiveIntensityArray = new Float32Array(planets.length);
+
+      planets.forEach((planet, i) => {
+        emissiveColorArray.set(emissiveColors[i].toArray(), i * 3);
+        emissiveIntensityArray[i] = emissiveIntensities[i];
+      });
+
+      ref.current.geometry.setAttribute(
+        "emissiveColor",
+        new THREE.InstancedBufferAttribute(emissiveColorArray, 3)
+      );
+      ref.current.geometry.setAttribute(
+        "emissiveIntensity",
+        new THREE.InstancedBufferAttribute(emissiveIntensityArray, 1)
+      );
+    }
+  }, [planets, emissiveColors, emissiveIntensities]);
+
+  useFrame(({ clock }) => {
+    const time = clock.getElapsedTime();
+
     planets.forEach((planet, i) => {
       if (ref.current) {
         const relativePosition = convertToGalaxyCoordinates(
@@ -41,7 +79,14 @@ const ExoplanetScene = memo(({ planets, colors, snrValues }: Props) => {
           )
         );
 
-        const scale = distance / CAMERA_PLANET_SCALING_FACTOR;
+        let scale = distance / CAMERA_PLANET_SCALING_FACTOR;
+
+        // Pulse effect for habitable planets
+        if (planet.isHabitable) {
+          const pulse = 1 + Math.sin(time * 2) * 0.5; // Pulse using sine wave
+          scale *= pulse; // Scale habitable planets dynamically
+        }
+
         tempObject.scale.set(scale, scale, scale);
         tempObject.position.set(
           relativePosition.x,
@@ -76,7 +121,6 @@ const ExoplanetScene = memo(({ planets, colors, snrValues }: Props) => {
     const instanceId = e.instanceId;
     if (instanceId !== undefined) {
       setClickedInstanceId(instanceId);
-      // Perform any action you want on click
       console.log("Clicked planet:", planets[instanceId]);
     }
   };
@@ -91,15 +135,13 @@ const ExoplanetScene = memo(({ planets, colors, snrValues }: Props) => {
         onClick={handlePointerClick}
       >
         <sphereGeometry args={[GLOBAL_PLANET_RADIUS, 10, 10]} />
-        {planets.map((planet, i) => (
-          <meshStandardMaterial
-            key={i}
-            emissive={colors[i] || "red"}
-            emissiveIntensity={1}
-            roughness={0.1}
-            color={colors[i] || "red"}
-          />
-        ))}
+
+        {/* Custom ShaderMaterial for dynamic emissive color and intensity */}
+        <shaderMaterial
+          attach="material"
+          vertexShader={vertexShader} // Add custom vertex shader
+          fragmentShader={fragmentShader} // Add custom fragment shader
+        ></shaderMaterial>
       </instancedMesh>
 
       {planets.map(
