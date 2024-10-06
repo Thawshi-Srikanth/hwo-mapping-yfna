@@ -10,18 +10,20 @@ import { useThree } from "@react-three/fiber";
 import { BlackHole } from "./BlackHole";
 import Earth from "./Earth";
 import ExoPlanet from "./ExoPlanet";
+import ExoPlanetScene from "./ExoPlanetScene";
 import * as THREE from "three";
 import ExoPlanetType from "../types/ExoPlanetType";
 import ToolContext from "../context/tools/ToolContext";
 import { getPlanetColorBySNR } from "../lib/exo-planet-color-filter";
 import gsap from "gsap";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
+import { isExoplanetWithinHabitableZone } from "../lib/habitability-calculation";
 
 // Use import.meta.url to set the worker URL correctly
-const snrWorkerUrl = new URL(`../web-workers/snrWorker.js`, import.meta.url);
+const snrWorkerUrl = new URL(`../web-workers/snrWorker.ts`, import.meta.url);
 
 const filterWorkerUrl = new URL(
-  `../web-workers/planetFilterWorker.js`,
+  `../web-workers/planetFilterWorker.ts`,
   import.meta.url
 );
 
@@ -170,11 +172,48 @@ function Scene({
     });
   }, [calculatedPlanets]);
 
+  const isValidNumber = (value: any) =>
+    value != null && value !== "" && !isNaN(value);
+  const allPlanetsData = useMemo(() => {
+    const planets: ExoPlanetType[] = [];
+    const colors: string[] = [];
+    const snrValues: number[] = [];
+
+    calculatedPlanets.forEach((planet) => {
+      if (
+        isValidNumber(planet.pl_orbsmax) &&
+        isValidNumber(planet.st_teff) &&
+        isValidNumber(planet.pl_rade)
+      ) {
+        const isHabitable = isExoplanetWithinHabitableZone(
+          planet.pl_name,
+          planet.st_rad,
+          planet.st_teff,
+          planet.pl_orbsmax
+        );
+        if (toolContext?.isHZActivated) planet.isHabitable = isHabitable; // Add the isHabitable field
+      }
+      planets.push(planet);
+      colors.push(getPlanetColorBySNR(planet.snr));
+      snrValues.push(planet.snr);
+    });
+
+    return { planets, colors, snrValues };
+  }, [calculatedPlanets]);
+
   return (
     <group ref={groupRef}>
       <BlackHole ref={blackHoleRef} />
       <Earth ref={earthRef} color={"blue"} />
-      {allExoPlanets}
+      {toolContext?.isInstantMesh ? (
+        <ExoPlanetScene
+          planets={allPlanetsData.planets}
+          colors={allPlanetsData.colors}
+          snrValues={allPlanetsData.snrValues}
+        />
+      ) : (
+        allExoPlanets
+      )}
     </group>
   );
 }
