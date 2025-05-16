@@ -1,10 +1,9 @@
-import { RiToolsFill } from "react-icons/ri";
 import { IoBarChartSharp } from "react-icons/io5";
 import { IoIosInformationCircleOutline } from "react-icons/io";
 import { ViewType } from "../../types/viewTypes";
 import MusicButton from "./MusicButton";
+
 type Props = {
-  onToolsClick: () => void;
   onInfoClick: () => void;
   onChartsClick: () => void;
   setView: (view: ViewType) => void;
@@ -13,7 +12,6 @@ type Props = {
 };
 
 export default function Header({
-  onToolsClick,
   onInfoClick,
   onChartsClick,
   setView,
@@ -23,17 +21,6 @@ export default function Header({
   return (
     <header className="fixed top-0 left-0 right-0 flex items-center justify-between w-full px-4 py-3 bg-black/70 backdrop-blur-sm z-20 border-b border-white/10">
       <div className="flex items-center space-x-3">
-        <button
-          onClick={onToolsClick}
-          className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-200 group"
-          aria-label="Open tools panel"
-        >
-          <RiToolsFill
-            className="text-white group-hover:text-blue-400 transition-colors duration-200"
-            size={24}
-          />
-        </button>
-
         <button
           onClick={onInfoClick}
           className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-200 group"
