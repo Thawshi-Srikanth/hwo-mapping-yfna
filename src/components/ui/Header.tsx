@@ -1,7 +1,11 @@
-import { IoBarChartSharp } from "react-icons/io5";
+import { IoBarChartSharp, IoTelescope } from "react-icons/io5";
 import { IoIosInformationCircleOutline } from "react-icons/io";
+import { IoRefreshOutline } from "react-icons/io5";
 import { ViewType } from "../../types/viewTypes";
 import MusicButton from "./MusicButton";
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { GiGalaxy } from "react-icons/gi";
 
 type Props = {
   onInfoClick: () => void;
@@ -18,71 +22,129 @@ export default function Header({
   view,
   resetCamera,
 }: Props) {
-  return (
-    <header className="fixed top-0 left-0 right-0 flex items-center justify-between w-full px-4 py-3 bg-black/70 backdrop-blur-sm z-20 border-b border-white/10">
-      <div className="flex items-center space-x-3">
-        <button
-          onClick={onInfoClick}
-          className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-200 group"
-          aria-label="Open information panel"
-        >
-          <IoIosInformationCircleOutline
-            className="text-white group-hover:text-blue-400 transition-colors duration-200"
-            size={26}
-          />
-        </button>
-      </div>
+  const [showTooltip, setShowTooltip] = useState<string | null>(null);
 
-      <nav>
-        <ul className="flex items-center space-x-6 text-sm md:text-base font-medium">
-          <li>
+  return (
+    <motion.header
+      initial={{ y: 100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ type: "spring", damping: 20, stiffness: 100 }}
+      className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-20 
+        w-auto rounded-2xl bg-[#0A0A0F]/90 backdrop-blur-md
+        shadow-[0_0_30px_rgba(88,28,135,0.15)] border border-purple-900/20"
+    >
+      <nav className="flex items-center justify-center p-2">
+        <ul className="flex items-center space-x-1">
+          <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <button
+              onClick={onInfoClick}
+              className="relative p-3 rounded-xl bg-purple-900/5 hover:bg-purple-900/20 
+                group transition-all duration-200"
+              onMouseEnter={() => setShowTooltip("info")}
+              onMouseLeave={() => setShowTooltip(null)}
+            >
+              <IoIosInformationCircleOutline
+                className="text-purple-300 group-hover:text-purple-200 transition-colors duration-200"
+                size={24}
+              />
+              {showTooltip === "info" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 
+                    px-3 py-1.5 text-xs text-purple-200 bg-[#1A1A2E] rounded-lg 
+                    shadow-lg border border-purple-900/20 whitespace-nowrap"
+                >
+                  Information
+                </motion.div>
+              )}
+            </button>
+          </motion.li>
+
+          <div className="w-px h-8 bg-purple-900/20 mx-2" />
+
+          <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <button
               onClick={() => setView("galaxy")}
-              className={`px-3 py-1 rounded-lg transition-all duration-200 ${
+              className={`relative p-3 rounded-xl transition-all duration-200 ${
                 view === "galaxy"
-                  ? "bg-white/10 text-blue-400"
-                  : "text-white hover:bg-white/5"
+                  ? "bg-purple-900/30 shadow-lg shadow-purple-900/20"
+                  : "bg-purple-900/5 hover:bg-purple-900/20"
               }`}
             >
-              Galaxy View
+              <GiGalaxy
+                className={`transition-colors duration-200 ${
+                  view === "galaxy" ? "text-purple-200" : "text-purple-300"
+                }`}
+                size={24}
+              />
             </button>
-          </li>
-          <li>
+          </motion.li>
+
+          <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <button
               onClick={() => setView("hwo")}
-              className={`px-3 py-1 rounded-lg transition-all duration-200 ${
+              className={`relative p-3 rounded-xl transition-all duration-200 ${
                 view === "hwo"
-                  ? "bg-white/10 text-blue-400"
-                  : "text-white hover:bg-white/5"
+                  ? "bg-purple-900/30 shadow-lg shadow-purple-900/20"
+                  : "bg-purple-900/5 hover:bg-purple-900/20"
               }`}
             >
-              HWO View
+              <IoTelescope
+                className={`transition-colors duration-200 ${
+                  view === "hwo" ? "text-purple-200" : "text-purple-300"
+                }`}
+                size={24}
+              />
             </button>
-          </li>
-          <li>
+          </motion.li>
+
+          <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <button
               onClick={resetCamera}
-              className="px-3 py-1 rounded-lg text-white hover:bg-white/5 transition-all duration-200"
+              className="relative p-3 rounded-xl bg-purple-900/5 hover:bg-purple-900/20 
+                group transition-all duration-200"
             >
-              Reset View
+              <IoRefreshOutline
+                className="text-purple-300 group-hover:text-purple-200 transition-colors duration-200"
+                size={24}
+              />
             </button>
-          </li>
+          </motion.li>
+
+          <div className="w-px h-8 bg-purple-900/20 mx-2" />
+
+          <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <MusicButton />
+          </motion.li>
+
+          <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <button
+              onClick={onChartsClick}
+              className="relative p-3 rounded-xl bg-purple-900/5 hover:bg-purple-900/20 
+                group transition-all duration-200"
+              onMouseEnter={() => setShowTooltip("charts")}
+              onMouseLeave={() => setShowTooltip(null)}
+            >
+              <IoBarChartSharp
+                className="text-purple-300 group-hover:text-purple-200 transition-colors duration-200"
+                size={24}
+              />
+              {showTooltip === "charts" && (
+                <motion.div
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="absolute bottom-full right-0 mb-2 
+                    px-3 py-1.5 text-xs text-purple-200 bg-[#1A1A2E] rounded-lg 
+                    shadow-lg border border-purple-900/20 whitespace-nowrap"
+                >
+                  Analytics
+                </motion.div>
+              )}
+            </button>
+          </motion.li>
         </ul>
       </nav>
-
-      <div className="flex items-center space-x-3">
-        <MusicButton />
-        <button
-          onClick={onChartsClick}
-          className="p-2 rounded-lg hover:bg-white/10 transition-colors duration-200 group"
-          aria-label="Open charts panel"
-        >
-          <IoBarChartSharp
-            className="text-white group-hover:text-blue-400 transition-colors duration-200"
-            size={24}
-          />
-        </button>
-      </div>
-    </header>
+    </motion.header>
   );
 }

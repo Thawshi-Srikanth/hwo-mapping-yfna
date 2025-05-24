@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { MdMusicNote, MdMusicOff } from "react-icons/md";
+import { motion } from "framer-motion";
 
-type Props = {};
-
-function MusicButton({}: Props) {
+function MusicButton() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
@@ -32,12 +31,10 @@ function MusicButton({}: Props) {
     setIsAudioPlaying(!isAudioPlaying);
   };
 
-  // Show tooltip
   const toggleTooltipME = () => {
     setIsTooltipVisible(true);
   };
 
-  // Hide tooltip
   const toggleTooltipML = () => {
     setIsTooltipVisible(false);
   };
@@ -50,40 +47,45 @@ function MusicButton({}: Props) {
         loop
         preload="auto"
       />
-      <div onMouseEnter={toggleTooltipME} onMouseLeave={toggleTooltipML}>
+      <motion.button
+        onClick={handleAudio}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className="relative p-3 rounded-xl bg-purple-900/5 hover:bg-purple-900/20 
+          group transition-all duration-200"
+        onMouseEnter={toggleTooltipME}
+        onMouseLeave={toggleTooltipML}
+      >
         {isAudioPlaying ? (
-          <div onClick={handleAudio}>
-            <MdMusicNote
-              color="white"
-              size={30}
-              className="hover:cursor-pointer hover:bg-slate-700"
-            />
-          </div>
+          <MdMusicNote
+            className="text-purple-300 group-hover:text-purple-200 transition-colors duration-200"
+            size={24}
+          />
         ) : (
-          <div onClick={handleAudio}>
-            <MdMusicOff
-              color="white"
-              size={30}
-              className="hover:cursor-pointer hover:bg-slate-700"
-            />
-          </div>
+          <MdMusicOff
+            className="text-purple-300 group-hover:text-purple-200 transition-colors duration-200"
+            size={24}
+          />
         )}
-      </div>
+      </motion.button>
+
       {isTooltipVisible && (
-        <div
-          className="absolute left-1/2 transform -translate-x-1/2 mt-0 p-2 bg-black rounded shadow-lg text-nowrap"
-          onMouseEnter={toggleTooltipME} // Show tooltip on hover
-          onMouseLeave={toggleTooltipML} // Hide tooltip when leaving
+        <motion.div
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 
+            px-3 py-1.5 text-xs text-purple-200 bg-[#1A1A2E] rounded-lg 
+            shadow-lg border border-purple-900/20 whitespace-nowrap"
         >
           <a
             href="https://youtu.be/ZQ44Kg-rbJo?si=k7ErYsNrA4YItWhs"
             target="_blank"
             rel="noopener noreferrer"
-            className="underline text-[10px] text-white"
+            className="hover:text-purple-300 transition-colors duration-200"
           >
             © Free @ FM4A
           </a>
-        </div>
+        </motion.div>
       )}
     </div>
   );
