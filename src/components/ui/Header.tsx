@@ -29,7 +29,7 @@ export default function Header({
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ type: "spring", damping: 20, stiffness: 100 }}
-      className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-20 
+      className="fixed bottom-6 left-3 transform -translate-x-1/2 z-20 
         w-auto rounded-2xl bg-[#0A0A0F]/90 backdrop-blur-md
         shadow-[0_0_30px_rgba(88,28,135,0.15)] border border-purple-900/20"
     >
